@@ -23,9 +23,11 @@ class FrequencyTest:
         :return:    (p_value, bool)     A tuple which contain the p_value and result of frequency_test(True or False)
 
         """
-
+        
         length_of_bit_string = len(binary_data)
-
+        if length_of_bit_string == 0:
+            # Not enough data to run this test
+            return (0.00000, False, 'Error: Not enough data to run this test')
         # Variable for S(n)
         count = 0
         # Iterate each bit in the string and compute for S(n)

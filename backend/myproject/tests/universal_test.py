@@ -23,6 +23,14 @@ class Universal:
         """
         length_of_binary_data = len(binary_data)
         pattern_size = 5
+        length_of_binary_data = len(binary_data)
+        # print('Length of binary string: ', length_of_binary_data)
+
+        # Initialized k, m. n, pi and v_values
+        if length_of_binary_data == 0:
+            # Not enough data to run this test
+            return (0.00000, False, 'Error: Not enough data to run this test')
+            
         if length_of_binary_data >= 387840:
             pattern_size = 6
         if length_of_binary_data >= 904960:

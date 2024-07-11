@@ -24,6 +24,14 @@ class ComplexityTest:
 
         length_of_binary_data = len(binary_data)
 
+        length_of_binary_data = len(binary_data)
+        # print('Length of binary string: ', length_of_binary_data)
+
+        # Initialized k, m. n, pi and v_values
+        if length_of_binary_data == 0:
+            # Not enough data to run this test
+            return (0.00000, False, 'Error: Not enough data to run this test')
+
         # The number of degrees of freedom;
         # K = 6 has been hard coded into the test.
         degree_of_freedom = 6

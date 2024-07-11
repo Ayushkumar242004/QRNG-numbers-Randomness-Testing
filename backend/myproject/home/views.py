@@ -10,6 +10,18 @@ from tests.cumulative_sums_test import CumulativeSums
 from tests. random_excursions_test import RandomExcursions
 from tests.Matrix import Matrix
 from tests.spectral import SpectralTest
+from django.http import StreamingHttpResponse
+import mimetypes
+#streaming
+import base64
+import time
+import requests
+from django.http import StreamingHttpResponse
+from django.shortcuts import render
+
+
+
+
 
 def run_frequency_test(request):
     # Example binary data received from the request query parameters
@@ -319,7 +331,7 @@ def run_cumulative_sums_test(request):
 def run_random_excursions_test(request):
     # Example binary data received from the request query parameters
     binary_data = request.GET.get('binary_data', '')
-
+   
     # Print the request URL and parameters
     print("Request URL:", request.get_full_path())
     print("Request Parameters:", request.GET)
@@ -430,3 +442,36 @@ def run_spectral_test(request):
 
     return JsonResponse(response_data)
 
+
+def send_binary_data(request):
+    binary_data = '101010'  # Example binary data as a string
+    response_data = {
+        'binary_data': binary_data
+    }
+    return JsonResponse(response_data)
+
+def fetch_binary_data():
+    # Replace this URL with the actual URL of the external server
+    url = "https://www.random.org/integers/?num=1&min=1&max=100&col=1&base=10&format=plain&rnd=new"
+    response = requests.get(url)
+    response.raise_for_status()  # Raise an exception for HTTP errors
+    return response.content
+
+def binary_event_stream():
+    while True:
+        try:
+            binary_data = fetch_binary_data()
+            encoded_data = base64.b64encode(binary_data).decode('utf-8')
+            yield f'data: {encoded_data}\n\n'
+        except requests.RequestException as e:
+            yield f'data: Error fetching data: {e}\n\n'
+        time.sleep(0.5)  # Adjust the sleep time as needed
+
+def sse_binary_view(request):
+    response = StreamingHttpResponse(binary_event_stream(), content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    response['X-Accel-Buffering'] = 'no'  # Disable buffering for nginx
+    return response
+
+def sse_binary_example_view(request):
+    return render(request, 'myapp/sse_binary_example.html')

@@ -108,6 +108,15 @@ class RandomExcursions:
         """
 
         length_of_binary_data = len(binary_data)
+        length_of_binary_data = len(binary_data)
+        # print('Length of binary string: ', length_of_binary_data)
+
+        # Initialized k, m. n, pi and v_values
+        if length_of_binary_data == 0:
+            # Not enough data to run this test
+            return None
+            # return (0.00000, False, 'Error: Not enough data to run this test')
+
         sequence_x = zeros(length_of_binary_data)
         for i in range(len(binary_data)):
             if binary_data[i] == '0':

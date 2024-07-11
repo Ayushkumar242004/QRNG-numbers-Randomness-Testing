@@ -21,6 +21,14 @@ class Matrix:
         :return     (p_value, bool)     A tuple which contain the p_value and result of frequency_test(True or False)
         """
 
+        length_of_binary_data = len(binary_data)
+        # print('Length of binary string: ', length_of_binary_data)
+
+        # Initialized k, m. n, pi and v_values
+        if length_of_binary_data == 0:
+            # Not enough data to run this test
+            return (0.00000, False, 'Error: Not enough data to run this test')
+
         shape = (rows_in_matrix, columns_in_matrix)
         length_of_binary_data = len(binary_data)
         block_size = int(rows_in_matrix * columns_in_matrix)
